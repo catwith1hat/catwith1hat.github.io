@@ -1,0 +1,11 @@
+title: My Blog
+description: A Markdown-based blog on GitHub
+baseurl: "" # leave empty for GitHub Pages
+url: "https://catwith1hat.github.io"
+
+theme: minima
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
