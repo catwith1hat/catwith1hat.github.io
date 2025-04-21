@@ -29,7 +29,7 @@ html { height: 100%; scroll-behavior: smooth; }
 
 body {
   color: black;
-  font-family: monospace;
+  font-family: "Open Sans";
   font-size: 16px;
   line-height: 1.4;
   margin: 0;
@@ -72,8 +72,8 @@ table, th, td {
 }
 
 code {
-  color: white;
-  background: black;
+  color: black;
+  background: white;
 }
 
 div.highlighter-rouge code {
@@ -84,11 +84,13 @@ div.highlighter-rouge code {
 }
 
 blockquote {
-  font-style: italic;
-  border: thin solid black;
-  padding: 1rem;
-
-  p { margin: 0; }
+//  font-style: italic;
+  border-left: .25em solid #d1d9e0;
+  padding: 0 1em;
+  color: #59636e;
+  margin: 0px;
+//  margin-inline-end: 
+//  p { margin: 0; }
 }
 
 img {
