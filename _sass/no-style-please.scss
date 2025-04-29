@@ -42,9 +42,11 @@ body {
 
 .post-meta { text-align: right; }
 
-h2, h3, h4, h5, h6 { margin-top: 3rem; }
+h1 { font-size: 200%; }
 
-hr { margin: 2rem 0; }
+h2, h3, h4, h5, h6 { margin-top: 1.5rem; }
+
+//hr { margin: 2rem 0; }
 
 p { margin: 1rem 0; }
 
@@ -75,8 +77,10 @@ table, th, td {
 }
 
 code {
-  color: black;
-  background: white;
+    text-align: left;
+    color: white;
+    background: black;
+    font-size: 14px;
 }
 
 div.highlighter-rouge code {
