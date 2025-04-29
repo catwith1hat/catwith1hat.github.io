@@ -17,4 +17,4 @@ RUN gem install bundler && bundle install
 EXPOSE 4000 35729
 
 # Run Jekyll with livereload
-CMD ["bundle", "exec", "jekyll", "serve", "--host", "0.0.0.0", "--livereload", "--incremental"]
+CMD ["bundle", "exec", "jekyll", "serve", "--host", "0.0.0.0", "--livereload"]
