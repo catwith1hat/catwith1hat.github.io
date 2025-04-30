@@ -27,7 +27,7 @@ During the Pectra upgrade of the Holesky testnet, a consensus critical
 bug affected Geth, Nethermind and Besu (short Gethersu). Reth and
 Erigon didn't have the same bug (short Rerigon). The chain forked with
 Gethersu on one side and Rerigon on the other. Gethersu had a
-super-majority of validators, which lead to Gethersu justifying a
+super-majority of validators, which led to Gethersu justifying a
 checkpoint behind the fork point.
 
 Once a checkpoint justifies, validators must use this checkpoint in
@@ -67,7 +67,7 @@ surround vote rule is violated if:
 a1.source.epoch < a2.source.epoch && a2.target.epoch < a1.target.epoch
 ```
 
-Note the use of strict great-than operators. If we have two votes
+Note the use of strict greater-than operators. If we have two votes
 originating from the same source epoch, the vote **is not** subject to
 surround vote slashing.
 
@@ -88,7 +88,7 @@ votes as \(\text{Checkpoint}_{X-1} → \text{Checkpoint}_{X} \).
 ### Slot 29 of Epoch 115968 on Holesky
 
 Shortly after the Pectra activation a new transaction triggered a new
-consensus path. The consensus-breaking transaction <!-- FIXME, link to the exact TX --> was included in slot 29 of [epoch
+consensus path. The consensus-breaking transaction <!-- FIXME: link to the exact TX --> was included in slot 29 of [epoch
 115968](https://light-holesky.beaconcha.in/epoch/115968) and caused an execution
 on Gethersu different from the one of Rerigon and the chain
 forked. A super-majority progressed with its side of the fork,
@@ -112,7 +112,7 @@ following effect on the Casper FFG votes:
   another source epoch justify after 115968. The epoch number was
   stuck at 115968 for the source epoch. Votes with a higher network
   were rejected by this side, because including attestations with a
-  higher soure epoch would violate block wellformedness rules.
+  higher source epoch would violate block wellformedness rules.
 
 <!--
 * On the Rerigon minority side, the justification for X did not happen, so
@@ -148,7 +148,7 @@ triggers the surround voting condition and leads to a slashing.
 
 ### A detour of the inactivity leak and correlation penalties
 
-Okay, what's so bad with slashing? You heard that in Electra they
+Okay, what's so bad about slashing? You heard that in Electra, they
 reduced the penality even further. It's like 0.032 ETH now, right? So
 let us move forward and switch sides.
 
@@ -170,7 +170,7 @@ So getting slashed and waiting both lead to the same result. A full
 lose of your stake. As there is no good answer, once you got caught
 with a surround slashable vote, the best strategy is to avoid a
 surround slashable vote *at all costs* (because it will literally
-costs you all).
+costs you everything).
 
 <!-- ### Who moves first? 
 
@@ -212,7 +212,7 @@ information to suppress our validator from casting source vote that starts
 beyond a safe high watermark. We call this high watermark number
 MAX_SOURCE_EPOCH.
 
-Let us entertain the thought that we are omniscient for a moment. If
+Let’s suppose that we are omniscient for a moment. If
 we know all consensus node states at a moment in time, how would we
 pick MAX_SOURCE_EPOCH? A single weird node somewhere on the network,
 with an old network version, with faulty memory and a spotty uplink
@@ -250,10 +250,10 @@ potentially have three sources of information:
 * If forks fall along the boundaries of client implementations, use
   multiple client implementations. This obviously provides more
   information about actual client implementation behaviour than just
-  running a single stack. We explore strategies based on multiple
+  running a single stack. We discuss strategies based on multiple
   backends under the "Local strategies" section below.
 
-* We coul use block data. We explore strategies on block data in the
+* We could use block data. We discuss strategies on block data in the
   "Global strategies" section.
 
 * Use in-flight P2P attestation data from the network (not explored in
@@ -298,7 +298,7 @@ ignored as them forking off leads to an immediate failure to justify.
 
 <!-- INSERT EL screenshot here. -->
 
-Let us now see how to aggregate the attestation data from all our
+Let’s now see how to aggregate the attestation data from all our
 backends nodes.
 
 <!-- ## During normal operations
@@ -343,7 +343,7 @@ most important to install a good set of minority clients.
   check. Use that one for attesting.
 
 This strategy is a very straight forward implementation of the
-definition. It is safe assuming that our node set is diverse
+definition. It is safe to assume that our node set is diverse
 enough. Here is an implementation:
 
 ```
@@ -409,7 +409,7 @@ vote changes. So only at slot 0 we need to wait for all backends to
 respond, taking the latency and availability hit to 3% of the problem.
 -->
 
-Let us inspect how we do with this strategy:
+Let’s examine how we do with this strategy:
 * Latency on slot 0 is bound by the worst case latency.
 * Maintenance window of ~30 slots or 6 minutes.
 
@@ -465,7 +465,7 @@ happened. So a MAX_SOURCE_EPOCH of the checkpoint right before the
 Holesky Pectra fork would have been safe.
 
 This strategy however has a problem when the fork happened earlier in
-an epoch, e.g slot 0-5. In the Holesky Pectra indident, we saw block
+an epoch, e.g slot 0-5. In the Holesky Pectra incident, we saw block
 production falling apart on the minority side right after the forking
 slot, with many many slots going missing afterwards. 
 
@@ -532,14 +532,14 @@ many validators voted for a target vote.
 What all strategies above tried to do is to guess whether a consensus
 client would accept a target vote as a source vote when the epoch
 rolls over. While strategy 3 -- looking at diverging LMD ghost votes
--- is a good indication for a fork, the absense of a fork doesn't mean
+-- is a good indication for a fork, the absence of a fork doesn't mean
 that the target vote justifies. What if the attestation data is just
 missing in the blocks? While producers are incentivized to include
 good attestations, they don't have to. A block without attestations
 isn't invalid. So it might be the case that the target vote doesn't
 turn into a source vote.
 
-<!-- If in addition to that one of our node has an
+<!-- If in addition to that one of our nodes has an
 accounting bug, and does indeed bump the source vote to the next
 epoch, and we have a fork right after, we would have casted the fatal
 surround slashable vote. -->
@@ -554,7 +554,7 @@ itself?
 The problem is that there is no standardized API in the Beacon API
 surface that could give us an indication what the beacon node thinks
 about its target vote. Would the beacon node accept the target vote in
-the absense of further votes? If the answer is yes, I would call the
+the absence of further votes? If the answer is yes, I would call the
 target vote "prejustified". That means: A checkpoint has gathered enough
 votes to pass the 66% threshold. What prevents the node from using
 this prejustified checkpoint as source vote immediately is simply that there isn't
@@ -596,7 +596,7 @@ $ curl -s -X GET "http://node2:4020/eth/v1/validator/attestation_data?slot=11562
 }
 ```
 
-Let us formulate a strategy based on the prejustified flag.
+Let’s formulate a strategy based on the prejustified flag.
 
 > When all my local nodes have agreed on their target vote and all
   nodes prejustify the target vote, increase MAX_SOURCE_EPOCH to the
@@ -614,7 +614,7 @@ def strategy(responses, slot):
 
 ### Summary of local strategies
 
-Strategy 1 is very straight forward to implement. We recommend that we start with this strategy. If the "wait for all responses" in slot 0 of a new epoch is unacceptable latency-wise, we would recommend strategy 3. As strategy 3 isn't perfect and requires a bit of guesswork by the validator implementation, we would suggest to change the Beacon API to include the participation_rate and/or a prejustified flag.
+Strategy 1 is very straight forward to implement. We recommend starting with this strategy. If the "wait for all responses" in slot 0 of a new epoch is unacceptable latency-wise, we would recommend strategy 3. As strategy 3 isn't perfect and requires a bit of guesswork by the validator implementation, we suggest changing the Beacon API to include the participation_rate and/or a prejustified flag.
 
 | Strategy | Latency Impact               | Maintenance window | Risks |
 | 1        | Worst case latency in slot 0 | ~30 slots          | None |
@@ -699,7 +699,7 @@ proposals, we still think that this is an okay approximate signal.
 
 ## Combining local and global strategies for full coverage:
 
-It's hard to detect a lower market share client with a global
+It's difficult to detect a lower market share client with a global
 strategy. We therefore recommend to use low market share clients with
 local strategies and detect high-market share client forks with global
 strategies. Installing all <20% CL/ELs (and assuming no unique pairing
