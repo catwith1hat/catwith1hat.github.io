@@ -735,8 +735,11 @@ bugs) requires three nodes.
 ## Further work
 
 This document is intended for review by validator implementation
-authors and early feedback. Once this is in, implementing local
-strategies in a reverse beacon API proxy is the next step.
+authors and early feedback (welcome via
+[email](mailto:catwith1hat@protonmail.com) or a PR against [this
+repo](https://github.com/catwith1hat/catwith1hat.github.io)). Once
+this is in, implementing local strategies in a reverse beacon API
+proxy is the next step.
 
 <!--
 ### Strategy: Force a higher threshold for attestation data
