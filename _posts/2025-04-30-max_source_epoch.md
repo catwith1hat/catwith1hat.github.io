@@ -643,8 +643,8 @@ def strategy(responses, slot):
 Strategy 1 is very straight forward to implement. We recommend starting with this strategy. If the "wait for all responses" in slot 0 of a new epoch is unacceptable latency-wise, we would recommend strategy 3. As strategy 3 isn't perfect and requires a bit of guesswork by the validator implementation, we suggest changing the Beacon API to include the participation_rate and/or a prejustified flag.
 
 | Strategy | Latency Impact          | Maintenance window     | Risks |
-| 0        | Slowest node            | 0 without backup nodes | None |
-| 1        | Slowest node in  slot 0 | ~30 slots              | None |
+| 0        | Slowest node            | 0 without backup nodes | None  |
+| 1        | Slowest node in  slot 0 | ~30 slots              | None  |
 | 2        | None                    | ~62 slots              | Relies on proposer incentives |
 | 3        | None                    | ~40 slots              | End of epoch processing bug   |
 | 4        | None                    | ~40 slots              | None, but unimplemented API   |

@@ -36,4 +36,12 @@ jektex:
     - ["\\Q", "\\mathbb{Q}"]
     - ["\\C", "\\mathbb{C}"]
 
-exclude: [ 'Gemfile*', '_site/', '.jektex-cache', '.#*']
+exclude:
+  - Gemfile*
+  - _site
+  - .jektex-cache
+  - .#*
+  - vendor
+  - .jekyll-cache
+  - .sass-cache
+#exclude: [ 'Gemfile*', '_site/', '.jektex-cache', '.#*', 'vendor', '.jekyll-cache/', '.sass-cache/' ]
