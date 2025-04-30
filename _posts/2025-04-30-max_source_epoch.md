@@ -452,7 +452,7 @@ source.
   Your browser does not support the video tag.
 </video>
 
-Above you see a video of attestation_watcher.py. It connects to a set
+Above you see a video of [attestation_watcher.py](https://gist.github.com/catwith1hat/a2cc6f2ebd7e75427144335c1db4e1bc). It connects to a set
 of backend nodes and queries attestation data every 250ms. In the
 example video above, node1 is Prysm+Reth, node2 is Lodestar+Erigon and
 node3 is Nimbus+Besu. You can see how the source vote and the target
