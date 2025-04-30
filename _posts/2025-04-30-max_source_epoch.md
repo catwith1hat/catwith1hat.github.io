@@ -138,13 +138,14 @@ protection databases that prevented the switch. Here is why.
 In order for former-Gethersu attesters to participate on the Rerigon
 side, they must cast the source vote starting from the last justified
 checkpoint on that side. For Rerigon that was 115968. Also the target
-must be close to the current slot. When Gethersu operators were ready to switch,
-the target vote progressed far away from 115968 and might have taken a
-form like this 115968 → 116XXX. But here comes the problem:
-Gethersu attesters have casted the vote 115969 → 115970 before the
-switch and this vote is inside the range of 115968→116XXX, which they
-now must cast to participate on the Rerigon side. But the latter vote
-triggers the surround voting condition and leads to a slashing.
+must be close to the current slot. When Gethersu operators were ready
+to switch, the target vote progressed far away from 115968 and might
+have taken a form like this 115968 → 116XXX. But here comes the
+problem: Gethersu attesters have casted the vote 115969 → 115970
+before the switch and this vote is inside the range of 115968→116XXX,
+which they now must cast to participate on the Rerigon side. But the
+latter vote triggers the surround voting condition and leads to a
+slashing.
 
 ### A detour of the inactivity leak and correlation penalties
 
@@ -328,6 +329,31 @@ cross the 66% threshold. The developer community could then gracefully
 recover without exposing anyone to surround vote slashing. So it is
 most important to install a good set of minority clients.
 -->
+
+### Strategy 0: Force equality of all attestation data
+
+Validator implementations like Vouch and Vero can aggregate
+attestation data from multiple backends. If you have a diverse CL/EL
+node set, you want attestation to stop the moment a single one
+disagrees with the rest. If for instance you have 3 backend nodes, all
+must respond with the same attestation data for Vouch/Vero to sign the
+attestation. In Vouch this mode is called majority voting with a
+threshold, where the threshold is the total number of backend
+nodes. This makes the attestation process rather brittle. If a single
+node has latency issues or is down for maintenance, you miss
+attestation. So this strategy is hard to implement.
+
+One way to overcome the problem of the maintenance window is to setup
+a backup node for each CL/EL. E.g. 2x Prysm/Reth, 2x Nimbus/Besu, and
+2x Lodestar/Erigon. Then you could run a strategy that at least one of
+each kind must be present, and that among those present all
+attestation data must be match. This also overcomes the problem of
+uncorrelated latency issues within a single kind of nodes. However, if
+a block causes latency spikes on all nodes of a single kind, because
+the block is just hard to process for this CL/EL combination, then we
+might again miss the attestation. So even with backup nodes, this
+strategy has its drawbacks.
+
 ### Strategy 1: Looking at the Casper FFG source vote
 
 > 1. Set MAX_SOURCE_EPOCH to zero.
@@ -616,11 +642,12 @@ def strategy(responses, slot):
 
 Strategy 1 is very straight forward to implement. We recommend starting with this strategy. If the "wait for all responses" in slot 0 of a new epoch is unacceptable latency-wise, we would recommend strategy 3. As strategy 3 isn't perfect and requires a bit of guesswork by the validator implementation, we suggest changing the Beacon API to include the participation_rate and/or a prejustified flag.
 
-| Strategy | Latency Impact               | Maintenance window | Risks |
-| 1        | Worst case latency in slot 0 | ~30 slots          | None |
-| 2        | None                         | ~62 slots          | Relies on proposer incentives |
-| 3        | None                         | ~40 slots          | End of epoch processing bug   |
-| 4        | None                         | ~40 slots          | None, but unimplemented API   | 
+| Strategy | Latency Impact          | Maintenance window     | Risks |
+| 0        | Slowest node            | 0 without backup nodes | None |
+| 1        | Slowest node in  slot 0 | ~30 slots              | None |
+| 2        | None                    | ~62 slots              | Relies on proposer incentives |
+| 3        | None                    | ~40 slots              | End of epoch processing bug   |
+| 4        | None                    | ~40 slots              | None, but unimplemented API   |
 
 
 ## Global strategies
