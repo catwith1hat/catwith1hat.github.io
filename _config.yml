@@ -44,4 +44,3 @@ exclude:
   - vendor
   - .jekyll-cache
   - .sass-cache
-#exclude: [ 'Gemfile*', '_site/', '.jektex-cache', '.#*', 'vendor', '.jekyll-cache/', '.sass-cache/' ]
